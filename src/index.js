@@ -4,11 +4,13 @@ import App from './App';
 import {BrowserRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {createStore,applyMiddleware} from 'redux';
-import ReduxThunk from 'redux-thunk';
+import createSagaMiddleware from 'redux-saga'
 import {composeWithDevTools} from 'redux-devtools-extension/developmentOnly';
 import rootReducer from './reducers/root_reducer';
-const createStoreWithMiddleware = composeWithDevTools(applyMiddleware(ReduxThunk)) (createStore);
+import rootSaga from './sagas/rootSaga';
+const sagaMiddleWare = createSagaMiddleware();
 
+const createStoreWithMiddleware = composeWithDevTools(applyMiddleware(sagaMiddleWare)) (createStore);
 ReactDOM.render(
 <Provider store={createStoreWithMiddleware(rootReducer)}>
     <BrowserRouter>
@@ -16,3 +18,5 @@ ReactDOM.render(
     </BrowserRouter>
 </Provider>
 , document.getElementById('root'));
+
+sagaMiddleWare.run(rootSaga);
