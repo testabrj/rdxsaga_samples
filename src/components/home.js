@@ -42,7 +42,7 @@ class Home extends Component {
             //    <ListItem item>Home</ListItem>
                
             // </List>
-            <div className={this.useStyles.root}>{books.length>0?(
+            <div className={this.useStyles.root}>{(!books.error && books.length>0)?(
             <GridList cellHeight={160} className={this.useStyles.gridList} cols={3}>
               {books.map(book => (
                 <GridListTile key={book.bib_key} cols={1}>
@@ -52,7 +52,8 @@ class Home extends Component {
                   </Typography>
                 </GridListTile>
               ))}
-            </GridList>):(<Card>No books found</Card>)}
+            </GridList>):(<Card>Loading</Card>)}
+            {books.error?(<Card>books.message</Card>):(<Card></Card>)}
           </div>
           );
     }
