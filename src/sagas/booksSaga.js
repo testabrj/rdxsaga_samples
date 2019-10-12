@@ -16,9 +16,12 @@ export function* fetchBooks() {
     try {
         console.log("fetchBooks called");
         yield put(requestBook());
-        const books = yield call(getBooks);
-        console.log("Books",books);
-        yield put(requestBookSuccess(books));
+        const booksObj = yield call(getBooks);
+        let bookArr = [];
+        for(let book in booksObj){
+            bookArr.push(booksObj[book]);
+        }
+        yield put(requestBookSuccess(bookArr));
     } catch (e) {
         console.log("fetchBooks error");
         yield put(requestBookError(e.message));
@@ -31,7 +34,7 @@ export function* fetchBooks() {
 */
 function* bookSaga() {
     console.log("Booksaga called");
-    yield takeLatest(actionConstants.FETCHED_BOOK, fetchBooks);
+    yield takeEvery(actionConstants.FETCHED_BOOK, fetchBooks);
 }
 
 /*

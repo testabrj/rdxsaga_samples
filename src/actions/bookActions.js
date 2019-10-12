@@ -4,8 +4,8 @@ export const requestBook = () => {
     return { type: REQUESTED_BOOK }
   };
   
-  export  const requestBookSuccess = (data) => {
-    return { type: REQUESTED_BOOK_SUCCEEDED, url: data.message }
+  export  const requestBookSuccess = (books) => {
+    return { type: REQUESTED_BOOK_SUCCEEDED, books:books }
   };
   
   export  const requestBookError = (message) => {

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Card, Paper, GridList,GridListTile, List, ListItem,makeStyles } from '@material-ui/core';
+import { Card, Paper, GridList,GridListTile, makeStyles, Link, Typography } from '@material-ui/core';
 import { connect} from 'react-redux';
 import {fetchBook} from '../actions/bookActions';
-import { bindActionCreators } from '../../../../Library/Caches/typescript/3.6/node_modules/redux';
+import { bindActionCreators } from 'redux';
+
 
 class Home extends Component {
     state = { 
@@ -29,11 +30,11 @@ class Home extends Component {
     
     componentDidMount(){
     //  let { dispatch } = this.props.actions;   
-     this.props.dispatch(fetchBook());
-
+     
+      this.props.dispatch(fetchBook())
     }
     render() { 
-        
+        const {books} = this.props.books;
         return (
             // <List container spacing={40} justify="center">
             //    <ListItem item>Home</ListItem>
@@ -41,15 +42,17 @@ class Home extends Component {
             //    <ListItem item>Home</ListItem>
                
             // </List>
-            <div className={this.useStyles.root}>
-            <Card>{this.state.books}</Card>   
+            <div className={this.useStyles.root}>{books.length>0?(
             <GridList cellHeight={160} className={this.useStyles.gridList} cols={3}>
-              {this.state.books.map(tile => (
-                <GridListTile key={tile.img} cols={tile.cols || 1}>
-                  <img src={tile.img} alt={tile.title} />
+              {books.map(book => (
+                <GridListTile key={book.bib_key} cols={1}>
+                  <img src={book.thumbnail_url} alt={book.bib_key} />
+                  <Typography>
+                  <Link href={book.info_url} > Info URL </Link>
+                  </Typography>
                 </GridListTile>
               ))}
-            </GridList>
+            </GridList>):(<Card>No books found</Card>)}
           </div>
           );
     }
@@ -57,24 +60,18 @@ class Home extends Component {
     
 }
 
-// function mapStateToProps(state) {
-//   const { requestBook } = state
- 
-
-//   return {
-//    state
-//   }
-// }
-
 const mapStateToProps = state => {
   const newState = state.bookState;
-  console.log(newState);
+
   return {
-    newState
+    books:newState
   }
 }
 const mapDispatchToProps = (dispatch) =>{
-  let action = bindActionCreators({ fetchBook:fetchBook});
+  // return {
+  //   fetchBook:fetchBook()
+  // }
+  let action = bindActionCreators({ fetchBook: fetchBook});
 
   console.log("actions=",action);
   const newAction = {...action,dispatch};

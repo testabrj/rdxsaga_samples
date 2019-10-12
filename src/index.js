@@ -11,12 +11,14 @@ import rootSaga from './sagas/rootSaga';
 const sagaMiddleWare = createSagaMiddleware();
 
 const createStoreWithMiddleware = composeWithDevTools(applyMiddleware(sagaMiddleWare)) (createStore);
+const createNewStore = createStoreWithMiddleware(rootReducer);
+sagaMiddleWare.run(rootSaga);
+
 ReactDOM.render(
-<Provider store={createStoreWithMiddleware(rootReducer)}>
+<Provider store={createNewStore}>
     <BrowserRouter>
     <App />
     </BrowserRouter>
 </Provider>
 , document.getElementById('root'));
 
-sagaMiddleWare.run(rootSaga);
