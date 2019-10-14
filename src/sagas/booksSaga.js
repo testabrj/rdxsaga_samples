@@ -2,19 +2,17 @@ import {
     call,
     put,
     takeEvery,
-    takeLatest
 } from 'redux-saga/effects'
 import {
     getBooks
 } from '../api/api.js'
-import {fetchBook,requestBook,requestBookError,requestBookSuccess} from '../actions/bookActions';
+import {requestBook,requestBookError,requestBookSuccess} from '../actions/bookActions';
 import * as actionConstants from '../actions/actionConstants';
 
 
 export function* fetchBooks() {
-    console.log("fetchBooks called");
+    
     try {
-        console.log("fetchBooks called");
         yield put(requestBook());
         const booksObj = yield call(getBooks);
         let bookArr = [];

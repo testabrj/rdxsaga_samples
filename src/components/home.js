@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Card, Paper, GridList,GridListTile, makeStyles, Link, Typography } from '@material-ui/core';
+import { Card, makeStyles } from '@material-ui/core';
 import { connect} from 'react-redux';
 import {fetchBook} from '../actions/bookActions';
 import { bindActionCreators } from 'redux';
+import BookCard from './bookCard';
 
 
 class Home extends Component {
@@ -21,6 +22,10 @@ class Home extends Component {
         overflow: 'hidden',
         backgroundColor: theme.palette.background.paper,
       },
+      inner:{
+        display:'flex',
+        flexDirection:'horizontal'
+      },
       gridList: {
         width: 500,
         height: 450,
@@ -36,24 +41,14 @@ class Home extends Component {
     render() { 
         const {books} = this.props.books;
         return (
-            // <List container spacing={40} justify="center">
-            //    <ListItem item>Home</ListItem>
-            //    <ListItem item>Home</ListItem>
-            //    <ListItem item>Home</ListItem>
-               
-            // </List>
-            <div className={this.useStyles.root}>{(!books.error && books.length>0)?(
-            <GridList cellHeight={160} className={this.useStyles.gridList} cols={3}>
+         
+          <div className={this.useStyles.root}>{(!books.error && books.length>0)?(
+           <div className={this.useStyles.inner}>
               {books.map(book => (
-                <GridListTile key={book.bib_key} cols={1}>
-                  <img src={book.thumbnail_url} alt={book.bib_key} />
-                  <Typography>
-                  <Link href={book.info_url} > Info URL </Link>
-                  </Typography>
-                </GridListTile>
+                <BookCard book={book} key={book.bib_key}/>
               ))}
-            </GridList>):(<Card>Loading</Card>)}
-            {books.error?(<Card>books.message</Card>):(<Card></Card>)}
+               </div>):(<Card>Loading</Card>)}
+            
           </div>
           );
     }
@@ -69,14 +64,9 @@ const mapStateToProps = state => {
   }
 }
 const mapDispatchToProps = (dispatch) =>{
-  // return {
-  //   fetchBook:fetchBook()
-  // }
-  let action = bindActionCreators({ fetchBook: fetchBook});
 
-  console.log("actions=",action);
+  let action = bindActionCreators({ fetchBook: fetchBook});
   const newAction = {...action,dispatch};
-  console.log("actions=",newAction);
   return newAction;
 }
 
