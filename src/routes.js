@@ -1,14 +1,16 @@
 import React from 'react';
-import {Switch,Route} from 'react-router-dom';
+import {Switch,Route,Router} from 'react-router-dom';
 import Home from './components/home';
 
-const Routes = () =>{
+const Routes = (props) =>{
 
     return (
-        <Switch>
-            <Route path="/" exact component={Home} />
-            
-        </Switch>
+        // <Router >
+            <Switch>
+                <Route path="/" exact component={Home} />
+                
+            </Switch>
+        // </Router>
     );
 
 
